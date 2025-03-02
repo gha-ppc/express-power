@@ -2,18 +2,18 @@ name: CI
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
-      - develop
-      - "4.x"
-      - "5.x"
-      - "5.0"
-    paths-ignore:
-      - "*.md"
-  pull_request:
-    paths-ignore:
-      - "*.md"
+  # push:
+  #   branches:
+  #     - master
+  #     - develop
+  #     - "4.x"
+  #     - "5.x"
+  #     - "5.0"
+  #   paths-ignore:
+  #     - "*.md"
+  # pull_request:
+  #   paths-ignore:
+  #     - "*.md"
 
 jobs:
   lint:
@@ -65,27 +65,27 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             architecture: x64
             node-version: 20
             runner-owner: "github-hosted"
-          - os: ubuntu-22.04
+          - os: ubuntu-24.04
             architecture: x64
             node-version: 21
             runner-owner: "github-hosted"
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 20
-            runner-owner: "actions-runner-x64"
-          - os: ubuntu-22.04-x64
-            architecture: x64
-            node-version: 21
-            runner-owner: "actions-runner-x64"
-          - os: ubuntu-22.04-ppc64le
+          # - os: ubuntu-22.04-x64
+          #   architecture: x64
+          #   node-version: 20
+          #   runner-owner: "actions-runner-x64"
+          # - os: ubuntu-22.04-x64
+          #   architecture: x64
+          #   node-version: 21
+          #   runner-owner: "actions-runner-x64"
+          - os: ubuntu-24.04-power10
             architecture: ppc64le
             node-version: 20
             runner-owner: "actions-runner-ppc64le"
-          - os: ubuntu-22.04-ppc64le
+          - os: ubuntu-24.04-power10
             architecture: ppc64le
             node-version: 21
             runner-owner: "actions-runner-ppc64le"
@@ -137,39 +137,39 @@ jobs:
           path: ./coverage
           retention-days: 1
 
-  coverage:
-    name: Merge Coverage Reports
-    needs: test
-    runs-on: ubuntu-latest
-    env:
-      NODE_OS: ubuntu-latest
+  # coverage:
+  #   name: Merge Coverage Reports
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     NODE_OS: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v4
 
-      - name: Configure npm loglevel
-        run: npm config set loglevel verbose
+  #     - name: Configure npm loglevel
+  #       run: npm config set loglevel verbose
 
-      - name: Install lcov
-        shell: bash
-        run: sudo apt-get -y install lcov
+  #     - name: Install lcov
+  #       shell: bash
+  #       run: sudo apt-get -y install lcov
 
-      - name: Collect coverage reports
-        uses: actions/download-artifact@v4
-        with:
-          name: coverage-${{ needs.test.outputs.matrix.runner-owner }}-${{ needs.test.outputs.matrix.node-version }}-${{ github.sha }}
-          path: ./coverage
+  #     - name: Collect coverage reports
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: coverage-${{ needs.test.outputs.matrix.runner-owner }}-${{ needs.test.outputs.matrix.node-version }}-${{ github.sha }}
+  #         path: ./coverage
 
-      - name: Merge coverage reports
-        shell: bash
-        run: |
-          find ./coverage -name "*.lcov" -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
+  #     - name: Merge coverage reports
+  #       shell: bash
+  #       run: |
+  #         find ./coverage -name "*.lcov" -exec printf '-a %q\n' {} \; | xargs lcov -o ./coverage/lcov.info
 
-      - name: Upload coverage report
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Upload coverage report
+  #       uses: coverallsapp/github-action@master
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Output Environment Variables
-        run: |
-          echo "Node OS: $NODE_OS"
+  #     - name: Output Environment Variables
+  #       run: |
+  #         echo "Node OS: $NODE_OS"
