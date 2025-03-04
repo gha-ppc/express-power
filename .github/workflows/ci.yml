@@ -85,11 +85,11 @@ jobs:
           #   architecture: x64
           #   node-version: 21
           #   runner-owner: "actions-runner-x64"
-          - os: ubuntu-24.04-power10
+          - os: ubuntu-24.04-p9-pvs
             architecture: ppc64le
             node-version: 20
             runner-owner: "actions-runner-ppc64le"
-          - os: ubuntu-24.04-power10
+          - os: ubuntu-24.04-p9-pvs
             architecture: ppc64le
             node-version: 21
             runner-owner: "actions-runner-ppc64le"
