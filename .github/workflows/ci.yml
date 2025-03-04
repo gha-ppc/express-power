@@ -34,7 +34,10 @@ jobs:
           # - os: ubuntu-24.04-power10
           #   architecture: ppc64le
           #   runner-owner: "actions-runner-ppc64le"
-          - os: ubuntu-24.04-p9-pvs
+          # - os: ubuntu-24.04-p9-pvs
+          #   architecture: ppc64le
+          #   runner_owner: "actions-runner-ppc64le"
+          - os: ubuntu-24.04-pdc-p9
             architecture: ppc64le
             runner_owner: "actions-runner-ppc64le"
            
@@ -85,11 +88,13 @@ jobs:
           #   architecture: x64
           #   node-version: 21
           #   runner-owner: "actions-runner-x64"
-          - os: ubuntu-24.04-p9-pvs
+          # - os: ubuntu-24.04-p9-pvs
+          - os: ubuntu-24.04-pdc-p9
             architecture: ppc64le
             node-version: 20
             runner-owner: "actions-runner-ppc64le"
-          - os: ubuntu-24.04-p9-pvs
+          # - os: ubuntu-24.04-p9-pvs
+          - os: ubuntu-24.04-pdc-p9  
             architecture: ppc64le
             node-version: 21
             runner-owner: "actions-runner-ppc64le"
